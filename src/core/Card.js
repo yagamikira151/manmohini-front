@@ -1,12 +1,15 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import ShowImage from './ShowImage'
 import moment from 'moment'
 import {addItem,updateItem,removeItem} from './cartHelpers'
+import {isAuthenticated} from '../auth'
+import {deleteProduct} from '../admin/apiAdmin'
 
-const Card=({product,view=true,cartview=true,cartUpdate=false,removeview=false})=>{
+const Card=({product,view=true,cartview=true,cartUpdate=false,removeview=false,setRun = f => f,  run = undefined })=>{
     const [redirect,setRedirect]= useState(false)
     const [count,setCount]= useState(product.count)
+    const {token,user}=isAuthenticated();
     const showViewButton=view=>{
         return(
             view&&(
@@ -19,9 +22,19 @@ const Card=({product,view=true,cartview=true,cartUpdate=false,removeview=false})
         )
 
     }
+    const destroy=(producId)=>{
+        deleteProduct(producId,user._id,token).then(data=>{
+            if(data.error){
+                console.log(data.error)
+            }else{
+                setRedirect(true)
+                shouldRedirect(redirect);
+            }
+        })
+    }
     const shouldRedirect=redirect=>{
         if(redirect){
-            return <Redirect to="/cart"/>
+            return <Redirect to="/"/>
         }
     };
 
@@ -30,7 +43,9 @@ const Card=({product,view=true,cartview=true,cartUpdate=false,removeview=false})
     }
 
     const handleChange=productId=>event=>{
-        setCount(event.target.value<1?1:event.target.value);
+        setRun(!run);
+        const p=Math.max(1,Math.min(event.target.value,product.quantity));
+        setCount(p);
         if(event.target.value>=1){
             updateItem(productId,event.target.value)
         }
@@ -44,13 +59,27 @@ const Card=({product,view=true,cartview=true,cartUpdate=false,removeview=false})
         </Link>
         )
     )
-    const showRemoveButton=()=>(
+    const showRemoveButton=(removeview)=>(
         removeview&&(
-        <Link to="/">
-            <button onClick={()=>removeItem(product._id)} className="btn btn-outline-danger mt-2 mb-2">
+        <Link to="/cart">
+            <button onClick={()=>{removeItem(product._id);setRun(!run);}} className="btn btn-outline-danger mt-2 mb-2">
                 Remove Item
             </button>
         </Link>
+        )
+    )
+    
+    const showDeleteButton=()=>(
+        view===false&&isAuthenticated()&&isAuthenticated().user.role===1&&(<div>
+                <button onClick={()=>{destroy(product._id);}} className="btn btn-outline-danger mt-2 mb-2">
+                    Delete Product
+                </button>
+                <Link to={`/admin/product/update/${product._id}`}>
+                        <button className="btn btn-outline-primary mt-2 mb-2">
+                            Update
+                        </button>
+                </Link>
+            </div>
         )
     )
     const showStock=qty=>{
@@ -71,11 +100,11 @@ const Card=({product,view=true,cartview=true,cartUpdate=false,removeview=false})
     }
     return (
             <div className="card">
-                <div className="card-header name" >{product.name}</div>
+                <div className="card-header name" style={{textAlign:'center'}} >{product.name}</div>
                 <div className="card-body">
                     {shouldRedirect(redirect)}
                     <ShowImage item={product} url="product"/>
-                    <p className="lead mt-2">{view===undefined?product.description.substring(0,30)+"....":product.description}</p>
+                    <p className="lead mt-2">{view===true?product.description.substring(0,30)+"....":product.description}</p>
                     <p className="balck-10">Rs {product.price}</p>
                     <p className="black-9">Category: {product.category&&product.category.name}</p>
                     <p className="black-8">
@@ -85,7 +114,8 @@ const Card=({product,view=true,cartview=true,cartUpdate=false,removeview=false})
                     <br/>
                     {showViewButton(view)}
                     {showAddtoCartButton()}
-                    {showRemoveButton()}
+                    {showDeleteButton()}
+                    {showRemoveButton(removeview)}
                     {showCartUpdateOptions()}
                 </div>
             </div>

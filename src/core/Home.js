@@ -40,21 +40,21 @@ const Home=()=>{
         </div>
     )
     return (
-    <Layout title="Home Page" description="Manmohini Collection" className="container-fluid">
+    <Layout title="Manmohini Collection" description="Buy From The Best" className="container-fluid">
         <Search/>
         {showError}
-       <h2 className="mb-4">New Arrivals</h2>
+       <h2 className="mb-4" style={{textAlign:'center'}}>New Arrivals</h2>
        <div className="row">
             {productByArrival.map((p,i)=>(
-            <div key={i} className="col-4 mb-3">
+            <div key={i} className="col-sm-12 col-md-4 mb-3">
                 <Card product={p}/>
             </div>
             ))}
        </div>
-       <h2 className="mb-4">Best Seller</h2>
+       <h2 className="mb-4" style={{textAlign:'center'}}>Best Seller</h2>
        <div className="row">
             {productBySell.map((p,i)=>(
-            <div key={i} className="col-4 mb-3">
+            <div key={i} className="col-sm-12 col-md-4  mb-3">
                 <Card product={p}/>
             </div>
             ))}

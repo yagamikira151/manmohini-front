@@ -95,9 +95,9 @@ const Shop =() =>{
 
     
     return (
-            <Layout title="Shop Page" description="Buy From The Best" className="container-fluid">
+            <Layout title="Your Shop" description="Buy From The Best" className="container-fluid">
             <div className="row">
-                <div className="col-4">
+                <div className="col-sm-12 col-md-4">
                     <h4>Filter By Categories</h4>
                     <ul>
                             <Checkbox categories={categories}
@@ -109,11 +109,11 @@ const Shop =() =>{
                             handleFilters={filters=>handleFilters(filters,'price')}/>
                     </div>
                 </div>
-                <div className="col-8">
+                <div className="col-sm-12 col-md-8">
                     <h2 className="mb-4">Products</h2>
                     <div className="row">
                         {filteredResult.map((p,i)=>(
-                        <div key={i} className="col-4 mb-3">
+                        <div key={i} className="col-sm-12 col-md-4 mb-3">
                             <Card product={p}/>
                         </div>
                         ))}

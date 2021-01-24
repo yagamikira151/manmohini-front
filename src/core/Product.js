@@ -33,11 +33,11 @@ const Product=(props)=>{
     return(
         <Layout title={product?product.name:"Welcome to Manmohini Collections"} description="Happy Shopping" className="container-fluid">
             <div className="row">
-                <div className="col-8">
+                <div className="col-sm-12 col-md-8 mt-3">
                     {product&&product.description&&<Card product={product} view={false} />}
                 </div>
-                <div className="col-4">
-                    <h4>Related Products</h4>
+                <div className="col-sm-12 col-md-4">
+                    <h4 style={{textAlign:'center'}}>Related Products</h4>
                     {relatedProduct.map((p,i)=>(
                         <div className="mb-3">
                             <Card key={i} product={p}/>

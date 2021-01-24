@@ -51,10 +51,15 @@
  /**
   * product image on card
   */
+  .logo{
+      height: 75px;
+      width: 75px;
+      align-self: start;
+  }
  
  .product-img {
-    height: 400px;
-    width: 400px;
+    height: 50%;
+    width: 50%;
  }
  
  .jumbotron h2 {

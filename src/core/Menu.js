@@ -25,6 +25,9 @@ const Menu =({history})=>{
             <li className="nav-item">
                 <Link className="nav-link" to="/cart" style={isActive(history,'/cart')}>Cart <sup><small className="cart-badge">{itemTotal()}</small></sup></Link>
             </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/info" style={isActive(history,'/info')}>Info</Link>
+            </li>
             {isAuthenticated()&&isAuthenticated().user.role===0&&(
             <li className="nav-item">
                 <Link className="nav-link" to="/user/dashboard" style={isActive(history,'/user/dashboard')}>Dashboard</Link>
