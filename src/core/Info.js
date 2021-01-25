@@ -10,7 +10,7 @@ const Info=()=>{
                 <ul className="list-group">
                     <li className="list-group-item" >Ekta Sinha</li>
                     <li className="list-group-item"><a href="collectionmanmohini@gmail.com">collectionmanmohini@gmail.com</a></li>
-                    <li className="list-group-item"><a href="#">+91 9421898342</a></li>
+                    <li className="list-group-item"><a>+91 9421898342</a></li>
                     <li className="list-group-item">Manmohini Collection <br/>Shop No.04 Ground Floor, Aaji Aura City <br/>Sr.No 276/1/2, H No. 1/2 Sathe Wasti<br/> Lohegaon, Pune City<br/>Pune- 411047</li>
                 </ul>
             </div>
